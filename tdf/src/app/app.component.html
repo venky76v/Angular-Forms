@@ -1,0 +1,104 @@
+<div class="jumbotron">
+  <h1 class="display-4">Angular Tutorial on Template Driven forms</h1>
+  <a href="https://www.youtube.com/watch?v=GKU0LtH8bzU&index=3&list=PLC3y8-rFHvwhwL-XH04cHOpJnkgRKykFi">Angular Forms
+    Tutorial</a>
+  <div *ngIf="submitted" class="alert alert-danger" role="alert">
+    {{messageFromExpressServer}}
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <div class="container-fluid">
+          <h1>Bootcamp Enrollment Form</h1>
+          <form #userForm="ngForm" *ngIf="!submitted" (ngSubmit)="onSubmit()" novalidate>
+            <div class="alert alert-warning" role="alert">
+              {{userForm.value | json}}
+              <hr>
+              {{ userModel | json }}
+              <hr>
+              {{ userForm.form.valid }}
+            </div>
+            <div class="form-group">
+              <label>Name</label>
+              <input type="text" #userName="ngModel" [class.is-invalid]="userName.invalid && userName.touched" required
+                class="form-control" placeholder="Enter your full name" name="userName" [(ngModel)]="userModel.userName">
+              <small class="text-danger" [class.d-none]="userName.valid || userName.untouched">Name is required</small>
+            </div>
+            <div class="form-group">
+              <label>Email</label>
+              <input type="email" #userEmail="ngModel" required pattern="^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$"
+                [class.is-invalid]="userEmail.invalid && userEmail.touched" class="form-control" placeholder="Enter your email for enrolling to the bootcamp"
+                name="userEmail" [(ngModel)]="userModel.userEmail">
+              <div *ngIf="userEmail.errors && (userEmail.invalid || userEmail.touched)">
+                <small class="text-danger" *ngIf="userEmail.errors.required">Email cannot be left blanks</small>
+                <small class="text-danger" *ngIf="userEmail.errors.pattern">Email must be a valid email</small>
+              </div>
+              <!-- <small class="text-danger" [class.d-none]="userEmail.valid || userEmail.untouched">Email is required and
+                should be valid</small> -->
+            </div>
+            <div class="form-group">
+              <label>Phone</label>
+              <input type="tel" #userPhone="ngModel" required pattern="^!*(\d!*){10,}$" [class.is-invalid]="userPhone.invalid && userPhone.touched"
+                class="form-control" placeholder="Phone number where we can contact you" name="userPhone" [(ngModel)]="userModel.userPhone">
+              <div *ngIf="userPhone.errors && (userPhone.invalid || userPhone.touched)">
+                <small class="text-danger" *ngIf="userPhone.errors.required">Phone cannot be left blanks</small>
+                <small class="text-danger" *ngIf="userPhone.errors.pattern">Phone must be a at least 10 digits</small>
+              </div>
+
+              <!-- <small class="text-danger" [class.d-none]="userPhone.valid || userPhone.untouched">Phone is required and
+                should be valid</small> -->
+            </div>
+            <div ngModelGroup="userAddress">
+              <div class="form-group">
+                <label>House Number / Street / Town</label>
+                <input type="text" [(ngModel)]="userModel.userAddress.housestreettown" name="housestreettown" class="form-control"
+                  placeholder="House Number / Street" name="userStreet">
+              </div>
+              <div class="form-group">
+                <label>County</label>
+                <input type="text" [(ngModel)]="userModel.userAddress.county" name="county" class="form-control"
+                  placeholder="County" name="userCounty">
+              </div>
+              <div class="form-group">
+                <label>Post Code / Eir Code</label>
+                <input type="text" [(ngModel)]="userModel.userAddress.eircode" name="eircode" class="form-control"
+                  placeholder="Post Code / Eir Code" name="userPostEirCode">
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Select your topic of Interest</label>
+              <select (blur)="validateTopic(userTopic.value)" (change)="validateTopic(userTopic.value)" #userTopic="ngModel"
+                [class.is-invalid]="userTopcicHasError && userTopic.touched" class="custom-select" name="userTopic"
+                [(ngModel)]="userModel.userTopic">
+                <option value="default">I am intersted in</option>
+                <option *ngFor="let topic of topics">{{topic}}</option>
+              </select>
+              <small class="text-danger" [class.d-none]="!userTopcicHasError || userTopic.untouched">Please choose a
+                topic for the bootcamp</small>
+            </div>
+            <div class="mp-3">
+              <label>Time Preference</label>
+              <div class="form-check">
+                <input type="radio" class="form-check-input" [(ngModel)]="userModel.userTimePreference" name="userTimePreference"
+                  value="morning">
+                <label class="form-check-label">Morning (9AM - 12PM)</label>
+              </div>
+              <div class="form-check">
+                <input type="radio" class="form-check-input" [(ngModel)]="userModel.userTimePreference" name="userTimePreference"
+                  value="evening">
+                <label class="form-check-label">Evening (5PM - 12PM)</label>
+              </div>
+            </div>
+            <div class="form-check mt-3">
+              <input type="checkbox" name="userSubscribe" [(ngModel)]="userModel.userSubscribe" class="form-check-input">
+              <label class="form-check-label">
+                Send me promotional offers
+              </label>
+            </div>
+            <button type="submit" [disabled]="userForm.form.invalid || userTopcicHasError" class="btn btn-primary mt-3">Submit</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
