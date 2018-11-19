@@ -14,7 +14,7 @@ app.get('/', function(req, res) {
 
 app.post('/enroll', function(req, res) {
     console.log(req.body);
-    res.status(200).send({"message": "Express server has received your form. We will be in touch with you soon"});
+    res.status(401).send({"message": "Express server has received your form. We will be in touch with you soon"});
 });
 
 app.listen(PORT, function() {

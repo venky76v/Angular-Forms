@@ -15,6 +15,7 @@ export class AppComponent {
   userModel = new User('Raji Sundararajan', 'rajashreesundar@gmail.com', 353879511021, this.userAddress, 'default', 'morning', true);
   submitted = false;
   messageFromExpressServer = '';
+  errorMessage = '';
   constructor(private _enrollmentService: EnrollmentService) {}
 
   validateTopic(value) {
@@ -27,10 +28,14 @@ export class AppComponent {
 
   onSubmit() {
     // console.log(this.userModel);
-    this.submitted = true;
     this._enrollmentService.enroll(this.userModel)
       .subscribe(
-        data => this.messageFromExpressServer = data.message, // this.messageFromExpressServer = data,
-        error => this.messageFromExpressServer = error.message);
+        data =>  this.setSuccessMessage(data.message), // this.messageFromExpressServer = data,
+        error => this.errorMessage = error.statusText);
+  }
+
+  setSuccessMessage(message: string) {
+    this.submitted = true;
+    this.messageFromExpressServer = message;
   }
 }
