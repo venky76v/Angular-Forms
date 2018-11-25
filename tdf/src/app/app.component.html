@@ -13,7 +13,7 @@
       <div class="col">
         <div class="container-fluid">
           <h1>Bootcamp Enrollment Form</h1>
-          <form #userForm="ngForm" *ngIf="!submitted" (ngSubmit)="onSubmit()" novalidate>
+          <form #userForm="ngForm" *ngIf="!submitted" (ngSubmit)="onSubmit(userForm)" novalidate>
             <div class="alert alert-warning" role="alert">
               {{userForm.value | json}}
               <hr>

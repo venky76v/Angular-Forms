@@ -26,8 +26,9 @@ export class AppComponent {
     }
   }
 
-  onSubmit() {
+  onSubmit(userForm) {
     // console.log(this.userModel);
+    console.log(userForm);
     this._enrollmentService.enroll(this.userModel)
       .subscribe(
         data =>  this.setSuccessMessage(data.message), // this.messageFromExpressServer = data,
